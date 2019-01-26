@@ -1,0 +1,34 @@
+	<nav class="navbar navbar-expand-sm bg-primary navbar-dark" style="padding: .2rem 1rem;">
+		<div class="container">
+			<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+				<!-- Brand -->
+				<a class="navbar-brand" href="/index" style="font-size: 34px;">KeroNotes</a>
+			</nav>
+			<% if (user) { %>
+			<form class="form-inline navbar-form navbar-right">
+				<div class="btn-group" style="margin-right: 10px;">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<%= username %>
+					</button>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="/<%= username %>">マイページ</a>
+						<a class="dropdown-item" href="/">ドラフト</a>
+						<a class="dropdown-item" href="/">通知</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="/settings">設定</a>
+						<a class="dropdown-item" href="/signout">ログイン</a>
+					</div>
+				</div>
+				<button type="button" class="btn btn-light" onclick="sharing()">共有</button>
+			</form>
+			<% } else { %>
+			<form class="form-inline navbar-form navbar-right">
+				<a class="btn btn-primary btn-sm" href="/signin" role="button" >ログイン</a>
+				<a class="btn btn-primary btn-sm" href="/signup" role="button" style="margin-right: 10px;">登録</a>
+				<button type="button" class="btn btn-light" onclick="sharing()">共有</button>
+			</form>
+			<% } %>
+		</div>
+	</nav>
+
+	<script>function sharing(){window.location.href='/sharing';}</script>

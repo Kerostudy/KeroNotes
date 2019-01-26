@@ -1,0 +1,21 @@
+<%- include('components/head') %>
+<%- include('components/nav_1') %>
+<div class="container" style="margin-top:15px;margin-bottom:20px;">
+  <%- include('components/notification') %>
+  <form class="needs-validation" novalidate action="/sharing/<%= post._id %>/edit" method="POST">
+    <div class="form-group">
+      <input type="text" class="form-control" id="inputAddress2" placeholder="タイトル" value="<%= post.title %>" name="title" required>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" id="inputAddress2" placeholder="タグ" value="<%= post.label %>" name="label" required>
+    </div>
+    <div class="form-group">
+      <textarea type="text" class="form-control" id="inputAddress2" placeholder="本文" rows="3" style="height: 600px" name="content" required><%= post.content %></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">投稿</button>
+    <button type="submit" class="btn btn-primary">一時保存</button>
+  </form>
+</div>
+</body>
+
+</html>

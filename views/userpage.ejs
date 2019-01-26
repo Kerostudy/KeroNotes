@@ -1,0 +1,18 @@
+<%- include('components/head') %>
+<%- include('components/nav_1') %>
+<%- include('components/nav_2') %>
+<div class="container">
+  <%- include('components/notification') %>
+  <div class="" style="margin-top:15px;margin-bottom:20px;">
+    <h3 style="color:#007bff;">マイページ</h3>
+  </div>
+</div>
+<div class="container" style="margin-top:15px;margin-bottom:20px;">
+  <% articles.forEach(function (article) { %>
+  <%- include('components/userpage_content', { article: article }) %>
+  <% }) %>
+  <% if(articles == ''){%>
+  <h3>投稿なし</h3>
+  <% } %>
+</div>
+<%- include('components/footer') %>

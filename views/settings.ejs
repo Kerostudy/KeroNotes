@@ -1,0 +1,36 @@
+<%- include('components/head') %>
+<%- include('components/nav_1') %>
+<div class="container" style="margin-top:15px;margin-bottom:20px;">
+  <%- include('components/notification') %>
+  <h3>設定</h3>
+  <form class="needs-validation" novalidate action="/settings" method="POST" style="" enctype="multipart/form-data">
+    <div class="form-row" style="min-height: 95px;">
+      <div class="col-md-12" style="margin-bottom: 0px;">
+        <label for="validationCustom01">メールアドレス(修正不可)</label>
+        <input type="email" readonly class="form-control-plaintext" id="validationCustom01" placeholder="" value="<%= post.email %>" name="email">
+      </div>
+    </div>
+    <div class="form-row" style="min-height: 95px;">
+      <div class="col-md-12" style="margin-bottom: 0px;">
+        <label for="validationCustom01">ユーザー名(修正不可)</label>
+        <input type="text" readonly class="form-control-plaintext" id="validationCustom01" placeholder="" value="<%= post.username %>" name="username">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-6" style="min-height: 95px">
+        <label for="validationCustom05">パスワードの変更</label>
+        <input type="password" class="form-control" id="validationCustom05" placeholder="" name="password">
+      </div>
+      <div class="col-md-6" style="min-height: 95px">
+        <label for="validationCustom05">パスワードの確認</label>
+        <input type="password" class="form-control" id="validationCustom05" placeholder="" name="repassword">
+      </div>
+    </div>
+    <!-- <div class="g-recaptcha" data-sitekey="6LcYjn8UAAAAACG4l85jmbf5yMGFRk3jeA_btJl8" style="margin-top: 10px;"></div> -->
+    <div style="margin-top: 30px;">
+      <button type="submit" class="btn btn-primary" id="submit">確定</button>
+    </div>
+    <h1></h1>
+  </form>
+</div>
+<%- include('components/footer') %>

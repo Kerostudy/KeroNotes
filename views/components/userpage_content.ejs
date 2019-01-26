@@ -1,0 +1,29 @@
+<div class="alert alert-primary" role="alert">
+  <% if (user && article.author._id && user._id.toString() === article.author._id.toString()) { %>
+  <h4 class="alert-heading">
+    <div style="margin-right: 0px;float: right">
+      <a class="btn btn-primary" href="/sharing/<%= article._id %>/edit">編集</a>
+      <a class="btn btn-primary" href="/sharing/<%= article._id %>/delete">削除</a>
+    </div>
+    <% } else { %>
+    <h4 class="alert-heading">
+      <% } %>
+      <a href="/<%= article.username %>/notes/<%= article._id %>">
+        <%= article.title %></a>
+    </h4>
+    <p>#
+      <%= article.label %>
+    </p>
+    <hr>
+    <p>
+      <%- article.content %>
+    </p>
+    <h6 style="color:gray">
+      作者:<a class="" href="/<%= article.username %>" style="color:gray">
+        <%= article.username %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+      閲覧回数:
+      <%= article.pv || 0 %>&nbsp;&nbsp;&nbsp;&nbsp;
+      コメント数:
+      <%= article.commentsCount || 0 %>
+    </h6>
+</div>

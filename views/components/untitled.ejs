@@ -1,0 +1,19 @@
+<% comments.forEach(function (comment) { %>
+<div class="alert alert-primary" role="alert">
+  <% if (flag2 == 2) { %>
+  <h4 class="alert-heading">
+    <div style="margin-right: 0px;float: right">
+      <a class="btn btn-primary" href="/sharing/<%= post._id %>/edit">削除</a>
+    </div>
+    <% } else { %>
+    <h4 class="alert-heading">
+      <% } %>
+    </h4>
+    <p>
+      <%- post.content %>
+    </p>
+    <h6 style="color:gray">
+      コメント者:<a class="" href="/<%= post.username %>" style="color:gray">
+        <%= post.username %></a>
+    </h6>
+</div>

@@ -1,0 +1,37 @@
+<h3 style="color:#007bff;">コメント</h3>
+<% comments.forEach(function (comment) { %>
+<div class="alert alert-primary" role="alert">
+  <div class="content">
+    <!-- <a class="author" href="/posts?author=<%= comment.author._id %>">
+      <%= comment.author.name %></a> -->
+
+    <div class="text">
+      <%- comment.content %>
+    </div>
+    <hr>
+    <h6 style="color:gray">
+      コメント者:<a class="" href="/<%= comment.author.username %>" style="color:gray">
+        <%= comment.author.username %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+      コメント時間:
+      <%= comment.created_at %>
+    </h6>
+
+    <% if (user && comment.author._id && user._id.toString() === comment.author._id.toString()) { %>
+
+    <form class="needs-validation" novalidate action="/comments/<%= comment._id %>/remove" method="get">
+      <button type="submit" class="btn btn-primary">削除</button>
+    </form>
+    <% } %>
+  </div>
+</div>
+<% }) %>
+
+<form class="needs-validation" novalidate action="/comments" method="POST">
+  <div class="alert alert-primary" role="alert">
+    <input name="postId" value="<%= article._id %>" hidden>
+    <div class="form-group">
+      <textarea type="text" class="form-control" id="inputAddress2" placeholder="正文" rows="3" style="height: 100px" name="content" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">コメント</button>
+  </div>
+</form>

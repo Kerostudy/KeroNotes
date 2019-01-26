@@ -1,0 +1,73 @@
+<%- include('components/head') %>
+<div class="card" style="max-width: 450px;min-height: 500px;margin: 130px auto 0px auto;">
+  <div class="card-body" style="padding: 48px 40px 36px;">
+    <p style="text-align: center"><a href="/index" style="font-size: 26px">KeroNotes</a></p>
+    <h3 align="center">ログイン</h3>
+    <div style="min-height: 50px;">
+      <%- include('components/notification') %>
+    </div>
+    <form class="needs-validation" novalidate action="/signin" method="POST" style="">
+      <div class="form-row" style="min-height: 95px;">
+        <div class="col-md-12" style="margin-bottom: 0px;">
+          <label for="validationCustom01">メールアドレス / ユーザー名</label>
+          <input type="text" class="form-control" id="validationCustom01" placeholder="" value="" name="emailorusername" required>
+          <div class="invalid-feedback">
+            あなたのメールアドレスかユーザー名を入力してください
+          </div>
+        </div>
+      </div>
+      <div class="form-row" style="min-height: 95px">
+        <div class="col-md-12">
+          <label for="validationCustom05">パスワード</label>
+          <input type="password" class="form-control" id="validationCustom05" placeholder="" name="password" required>
+          <div class="invalid-feedback">
+            パスワードを入力してください
+          </div>
+        </div>
+      </div>
+      <!-- <div class="g-recaptcha" data-sitekey="6LcYjn8UAAAAACG4l85jmbf5yMGFRk3jeA_btJl8" style="margin-top: 10px;"></div> -->
+      <div style="margin-top: 30px;">
+        <button type="submit" class="btn btn-primary" id="submit">ログイン</button>
+        <a href="/forgot" style="font-size: 14px;float:right;padding-top: 8px;">パスワードを忘れました</a>
+      </div>
+    </form>
+  </div>
+</div>
+</div>
+<div style="max-width: 450px;margin: 0 auto;padding-top: 10px;">
+  <ul class="navbar-nav" style="max-width: 50px;float:left;">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" style="font-size: 14px;">日本語</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#" style="font-size: 12px;">English</a>
+        <a class="dropdown-item" href="#" style="font-size: 12px;">日本語</a>
+        <a class="dropdown-item" href="#" style="font-size: 12px;">中文</a>
+      </div>
+    </li>
+  </ul>
+  <a href="/signup" style="float:right;font-size: 14px;">登録</a>
+</div>
+</body>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+
+</html>
