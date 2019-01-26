@@ -2,7 +2,7 @@ var main = require('./main');
 var sign = require('./sign');
 var user = require('./user');
 var articles = require('./articles');
-var auth = require('../middlewares/auth');
+var auth = require('../common/auth');
 var sharing = require('./sharing')
 var comments =require('./comments')
 

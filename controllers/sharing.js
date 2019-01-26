@@ -2,8 +2,8 @@ const express = require('express')
 const router = express.Router()
 
 const PostModel = require('../models/posts')
-const checkNotLogin = require('../middlewares/check').checkNotLogin
-const checkLogin = require('../middlewares/check').checkLogin
+const checkNotLogin = require('../common/check').checkNotLogin
+const checkLogin = require('../common/check').checkLogin
 
 // GET 
 exports.showcreate =  function (req, res, next) {
