@@ -96,7 +96,7 @@ module.exports = {
     }
     return Post
       .find({ author : author })
-      .populate({ path: 'author', model: 'User' })
+      .populate({ path: '_id', model: 'User' })
       .sort({ _id: -1 })
       .addCreatedAt()
       .addCommentsCount()

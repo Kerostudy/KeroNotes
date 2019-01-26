@@ -1,4 +1,4 @@
-var main = require('./main');
+var index = require('./index');
 var sign = require('./sign');
 var user = require('./user');
 var articles = require('./articles');
@@ -7,13 +7,13 @@ var sharing = require('./sharing')
 var comments =require('./comments')
 
 module.exports = function (app) {
-  app.get('/', main.index);
-  app.get('/index', main.index);
+  app.get('/', index.index);
+  app.get('/index', index.index);
 
   app.get('/signup', sign.showsignup);
   app.post('/signup', sign.signup);
-  app.get('/login', sign.showsignin);
-  app.post('/login', sign.signin);
+  app.get('/signin', sign.showsignin);
+  app.post('/signin', sign.signin);
   app.get('/signout', sign.showsignout);
   app.get('/forgot', sign.forgot);
   app.post('/forgot', sign.showforgot);
@@ -22,7 +22,7 @@ module.exports = function (app) {
   app.post('/settings', auth.userRequired, user.settings);
 
   app.get('/sharing', sharing.showcreate);
-  app.post('/sharing', auth.userRequired, sharing.create);
+  app.post('/sharing', sharing.create);
   app.get('/sharing/:article_id/edit', auth.userRequired, sharing.showedit);
   app.post('/sharing/:article_id/edit', auth.userRequired, sharing.edit);
   app.get('/sharing/:article_id/delete', auth.userRequired, sharing.remove);

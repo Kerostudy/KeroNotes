@@ -1,11 +1,6 @@
-const express = require('express')
-const router = express.Router()
+const PostModel = require('../models/articles')
 
-const PostModel = require('../models/posts')
-const checkNotLogin = require('../common/check').checkNotLogin
-const checkLogin = require('../common/check').checkLogin
-
-// GET 
+// GET
 exports.showcreate =  function (req, res, next) {
   try {
     if (req.session.user == null){
@@ -53,17 +48,12 @@ exports.create = function (req, res, next) {
   PostModel.create(post)
     .then(function (result) {
       // 此 post 是插入 mongodb 后的值，包含 _id
-      post = result.ops[0]
+      console.log(result)
+      post = result
       req.flash('success', '发表成功')
       // 发表成功后跳转到该文章页
-      //res.redirect('back',{
-      res.redirect(`/${post.username}`)
-      //,{
-      //res.location(`../${post.username}`,{
-        //res.location('http://localhost:4000/asdfasdf',{
-        //res.redirect()
-        //username: username
-      //})
+      console.log(username)
+      res.redirect(`/${username}`)
     })
     .catch(next)
 }
