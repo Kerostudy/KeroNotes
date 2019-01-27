@@ -4,7 +4,6 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
 const config = require('config-lite')(__dirname)
-//const routes = require('./routes')
 const pkg = require('./package')
 const i18n = require('i18n')
 
@@ -40,16 +39,6 @@ app.use(require('express-formidable')({
   uploadDir: path.join(__dirname, 'public/img'), // 上传文件目录
   keepExtensions: true // 保留后缀
 }))
-
-
-//设置i18n
-i18n.configure({
-  locales: ['cn', 'en', 'jp'],
-  defaultLocale: 'jp',
-  directory: __dirname + '/locales'
-  //objectNotation: true
-});
-app.use(i18n.init);
 
 // 设置模板全局常量
 app.locals.blog = {

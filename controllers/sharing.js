@@ -23,7 +23,6 @@ exports.create = function (req, res, next) {
   const label = req.fields.label
   const content = req.fields.content
 
-
   // 校验参数
   try {
     if (!title.length) {
@@ -68,7 +67,7 @@ exports.showedit = function (req, res, next) {
       if (!result) {
         throw new Error('该文章不存在')
       }
-      if (result.author.toString() !== author.toString()) {
+      if (result.author._id.toString() !== author.toString()) {
         throw new Error('没有权限')
       }
       res.render('edit',{
@@ -104,7 +103,7 @@ PostModel.getRawPostById(article_id)
       if (!post) {
         throw new Error('文章不存在')
       }
-      if (post.author.toString() !== author.toString()) {
+      if (post.author._id.toString() !== author.toString()) {
         throw new Error('没有权限')
       }
 
@@ -129,14 +128,14 @@ exports.remove = function (req, res, next) {
         throw new Error('文章不存在')
       }
       console.log(post)
-      if (post.author.toString() !== author.toString()) {
+      if (post.author._id.toString() !== author.toString()) {
         throw new Error('没有权限')
       }
       PostModel.delPostById(article_id)
         .then(function () {
           req.flash('success', '删除文章成功')
           // 删除成功后跳转到我的主页
-          res.redirect(`/${post.username}`)
+          res.redirect(`/${post.author.username}`)
         })
         .catch(next)
     })

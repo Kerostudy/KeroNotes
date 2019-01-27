@@ -1,16 +1,16 @@
 <div class="alert alert-primary" role="alert">
   <h4 class="alert-heading">
-    <a href="/<%= post.username %>/notes/<%= post._id %>">
-      <%= post.title %></a>
+    <a href="/<%= post.author.username %>/notes/<%= post._id %>">
+      <%= post.title %>
+    </a>
   </h4>
   <p>#
     <%= post.label %>
   </p>
   <h6 style="color:gray">
-    作者:<a class="" href="/<%= post.username %>" style="color:gray">
-      <%= post.username %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+    作者:<a class="" href="/<%= post.author.username %>" style="color:gray">
+      <%= post.author.username %></a>&nbsp;&nbsp;&nbsp;&nbsp;
     閲覧回数:<a class="">
-      <%= post.pv %></a>
-    <!-- 作者:<%= post.username %>&nbsp;&nbsp;&nbsp;&nbsp;浏览次数<%= post.pv %> -->
+      <%= post.pv %>
   </h6>
 </div>

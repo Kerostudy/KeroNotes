@@ -8,7 +8,9 @@ function isEmail(str) {
 }
 
 module.exports = {
-  // 注册一个用户
+  // 新ユーザーを登録する
+  // Register a new user
+  // 注册一个新用户
   create: function create(user) {
     return User.create(user).exec()
   },
@@ -32,11 +34,10 @@ module.exports = {
     }
   },
 
-  getUserByUserid: function getUserByUserid(user) {
-    console.log(user)
+  getUserByUserid: function getUserByUserid(user_id) {
     return User
       .findOne({
-        _id: user
+        _id: user_id
       })
       .addCreatedAt()
       .exec()

@@ -42,6 +42,26 @@ Post.plugin('contentToHtml', {
 })
 
 module.exports = {
+
+  // 作成時間の降順ですべてのユーザー記事を取得する
+  // Get all user articles in descending order of creation time
+  // 按创建时间降序获取所有用户文章
+  getAllPosts: function getAllPosts() {
+    return Post
+      .find()
+      .populate({
+        path: 'author',
+        model: 'User'
+      })
+      .sort({
+        _id: -1
+      })
+      .addCreatedAt()
+      .addCommentsCount()
+      .contentToHtml()
+      .exec()
+  },
+
   // 创建一篇文章
   create: function create(post) {
     return Post.create(post).exec()
@@ -78,33 +98,11 @@ module.exports = {
   //   console.log(postId)
   // },
 
-
-  // 作成時間の降順ですべてのユーザー記事を取得する
-  // Get all user articles in descending order of creation time
-  // 按创建时间降序获取所有用户文章
-  getAllPosts: function getAllPosts() {
-    return Post
-      .find()
-      .populate({
-        path: 'author',
-        model: 'User'
-      })
-      .sort({
-        _id: -1
-      })
-      .addCreatedAt()
-      .addCommentsCount()
-      .contentToHtml()
-      .exec()
-  },
-
-
   // 按创建时间降序获取所有用户文章或者某个特定用户的所有文章
   getPosts: function getPosts(author) {
     const query = {}
     if (author) {
       query.author = author
-      console.log(author)
     }
     return Post
       .find({

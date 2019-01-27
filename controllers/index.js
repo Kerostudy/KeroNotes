@@ -1,22 +1,23 @@
-const PostModel = require('../models/articles')
+const PostModel = require('../models/posts')
 
+//GET /
+//すべてのユーザー記事を取得
+//Get all user articles
+//获取所有用户文章
 exports.index = function(req, res, next) {
-  //const author = req.params.username
-  console.log(req.session)
-  if (req.session.user !== null && req.session.user !== undefined) {
-    const author = req.session.user.username
-  }
-  //console.log(author)
-
   PostModel.getAllPosts()
     .then(function(posts) {
-      //console.log(posts)
       res.render('index', {
-        //flag: 0, //不显示编辑删除功能
-        if (author) {
-          username: author
-        },
         posts: posts
       })
     })
+    .catch(next)
+}
+
+//GET /index
+// /index がアクセスされた場合　/　に誘導する
+// Jump to / when /index is accessed
+// 访问/index时跳转到/
+exports.toindex = function(req, res, next) {
+  res.redirect('/')
 }

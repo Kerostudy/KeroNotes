@@ -8,7 +8,7 @@
     <% } else { %>
     <h4 class="alert-heading">
       <% } %>
-      <a href="/<%= article.username %>/notes/<%= article._id %>">
+      <a href="/<%= article.author.username %>/notes/<%= article._id %>">
         <%= article.title %></a>
     </h4>
     <p>#
@@ -19,8 +19,8 @@
       <%- article.content %>
     </p>
     <h6 style="color:gray">
-      作者:<a class="" href="/<%= article.username %>" style="color:gray">
-        <%= article.username %></a>&nbsp;&nbsp;&nbsp;&nbsp;
+      作者:<a class="" href="/<%= article.author.username %>" style="color:gray">
+        <%= article.author.username %></a>&nbsp;&nbsp;&nbsp;&nbsp;
       閲覧回数:
       <%= article.pv || 0 %>&nbsp;&nbsp;&nbsp;&nbsp;
       コメント数:
