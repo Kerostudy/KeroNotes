@@ -1,5 +1,6 @@
 const UserModel = require('../models/users')
 const sha256 = require('sha256')
+const path = require('path')
 
 //GET /settings
 exports.showsettings = function(req, res, next) {
@@ -19,10 +20,32 @@ exports.showsettings = function(req, res, next) {
 //POST /settings
 exports.settings = function(req, res, next) {
   const user_id = req.session.user._id
+  const first_name = req.fields.first_name
+  const last_name = req.fields.last_name
+  const avatar =  req.files.avatar.path.split(path.sep).pop()
+  const organization = req.fields.organization
+  const location = req.fields.location
+  const profile = req.fields.profile
   const password = req.fields.password
   const repassword = req.fields.repassword
 
+　console.log(avatar)
+
   try {
+    if (avatar) {
+      if (avatar.length > 2048) {
+        throw new Error('アイコンの大きさは2MBを超えないでください')
+      }
+    }
+    if (organization.length > 30) {
+      throw new Error('組織・会社は30文字を超えないでください')
+    }
+    if (location.length > 30) {
+      throw new Error('居住地は30文字を超えないでください')
+    }
+    if (location.length > 200) {
+      throw new Error('居住地は200文字を超えないでください')
+    }
     if (password.length < 8) {
       throw new Error('パスワード8文字以上にしてください')
     }
@@ -51,6 +74,12 @@ exports.settings = function(req, res, next) {
         return res.redirect('back')
       }
       UserModel.updateUserById(user_id, {
+          avatar: avatar,
+          first_name: first_name,
+          last_name: last_name,
+          organization: organization,
+          location: location,
+          profile: profile,
           password: password
         })
         .then(function() {

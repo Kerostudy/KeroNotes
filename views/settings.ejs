@@ -19,38 +19,43 @@
     <div class="form-row">
       <div class="col-md-6" style="min-height: 95px">
         <label for="validationCustom05">名前</label>
-        <input type="text" class="form-control" id="validationCustom05" placeholder="姓" value="<%= post.username %>" name="password">
+        <input type="text" class="form-control" id="validationCustom05" placeholder="姓" value="<%= post.first_name %>" name="first_name">
       </div>
       <div class="col-md-6" style="min-height: 95px">
         <label for="validationCustom05">&nbsp;</label>
-        <input type="text" class="form-control" id="validationCustom05" placeholder="名" value="<%= post.username %>" name="repassword">
+        <input type="text" class="form-control" id="validationCustom05" placeholder="名" value="<%= post.last_name %>" name="last_name">
       </div>
     </div>
-    <div class="form-row" style="min-height: 95px;">
-      <div class="col-md-12" style="margin-bottom: 0px;">
-        <label for="validationCustom01">アイコンをアップロードする</label>
-        <input type="text" class="form-control" id="validationCustom01" placeholder="" value="<%= post.username %>" name="username">
-      </div>
+    <img class="align-self-start mr-3" src="/img/<%= post.avatar %>" alt="Generic placeholder image">
+    <div class="field required">
+      <label>头像</label>
+      <input type="file" name="avatar">
     </div>
+    <!-- <div class="form-row" style="min-height: 95px;">
+      <div class="form-group">
+        <label for="exampleFormControlFile1">アイコンをアップロードする</label>
+        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="avatar">
+      </div>
+    </div> -->
     <div class="form-row" style="min-height: 95px;">
       <div class="col-md-12" style="margin-bottom: 0px;">
         <label for="validationCustom01">所属している組織・会社</label>
-        <input type="text" class="form-control" id="validationCustom01" placeholder="" value="<%= post.username %>" name="username">
+        <input type="text" class="form-control" id="validationCustom01" placeholder="" value="<%= post.organization %>" name="organization">
       </div>
     </div>
     <div class="form-row" style="min-height: 95px;">
       <div class="col-md-12" style="margin-bottom: 0px;">
         <label for="validationCustom01">居住地</label>
-        <input type="text" class="form-control" id="validationCustom01" placeholder="" value="<%= post.username %>" name="username">
+        <input type="text" class="form-control" id="validationCustom01" placeholder="" value="<%= post.location %>" name="location">
       </div>
     </div>
     <div class="form-row" style="min-height: 95px;">
       <div class="col-md-12" style="margin-bottom: 0px;">
         <label for="validationCustom01">自己紹介</label>
-        <input type="text" class="form-control" id="validationCustom01" placeholder="" value="<%= post.username %>" name="username">
+        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="profile"><%= post.profile %></textarea>
       </div>
     </div>
-    <div class="form-row">
+    <div class="form-row" style="margin-top: 30px;">
       <div class="col-md-6" style="min-height: 95px">
         <label for="validationCustom05">パスワードの変更</label>
         <input type="password" class="form-control" id="validationCustom05" placeholder="" name="password">
@@ -64,7 +69,6 @@
     <div style="margin-top: 30px;">
       <button type="submit" class="btn btn-primary" id="submit">確定</button>
     </div>
-    <h1></h1>
   </form>
 </div>
 <%- include('components/footer') %>
