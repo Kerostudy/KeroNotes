@@ -28,21 +28,18 @@ Post.plugin('contentToHtml', {
   afterFind: function(posts) {
     return posts.map(function(post) {
       post.content = marked(post.content)
-      //console.log(post.content)
       return post
     })
   },
   afterFindOne: function(post) {
     if (post) {
       post.content = marked(post.content)
-      //console.log(post.content)
     }
     return post
   }
 })
 
 module.exports = {
-
   // 作成時間の降順ですべてのユーザー記事を取得する
   // Get all user articles in descending order of creation time
   // 按创建时间降序获取所有用户文章
@@ -69,7 +66,6 @@ module.exports = {
 
   // 通过文章 id 获取一篇文章
   getPostById: function getPostById(postId) {
-    console.log(postId)
     return Post
       .findOne({
         _id: postId
@@ -82,12 +78,10 @@ module.exports = {
       .addCommentsCount()
       .contentToHtml()
       .exec()
-    console.log(postId)
   },
 
   // 通过关键字获取文章
   // getPostByWord: function getPostWord(post) {
-  //   console.log(post)
   //   return Post
   //     .find({ : postId })
   //     .populate({ path: 'author', model: 'User' })
@@ -95,7 +89,6 @@ module.exports = {
   //     .addCommentsCount()
   //     .contentToHtml()
   //     .exec()
-  //   console.log(postId)
   // },
 
   // 按创建时间降序获取所有用户文章或者某个特定用户的所有文章

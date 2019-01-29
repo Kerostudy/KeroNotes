@@ -1,6 +1,6 @@
 const UserModel = require('../models/users')
 const CommentModel = require('../models/comments')
-const ArticleModel = require('../models/articles')
+const ArticleModel = require('../models/posts')
 
 exports.username = function (req, res, next) {
   const username = req.params.username
@@ -11,16 +11,14 @@ exports.username = function (req, res, next) {
       } else {
         user_id = user._id
       }
-      console.log(user_id)
       ArticleModel.getPosts(user_id)
         .then(function (articles) {
           res.render('userpage', {
             username: username,
             articles: articles
           })
-          console.log(articles)
         })
-        
+
         .catch(next)
     })
 }

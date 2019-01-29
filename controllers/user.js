@@ -29,14 +29,15 @@ exports.settings = function(req, res, next) {
   const password = req.fields.password
   const repassword = req.fields.repassword
 
-　console.log(avatar)
-
   try {
-    if (avatar) {
-      if (avatar.length > 2048) {
-        throw new Error('アイコンの大きさは2MBを超えないでください')
-      }
-    }
+    // アバターのサイズを制限する？
+    // Limit avatar size？
+    // 限制头像大小？
+    // if (avatar) {
+    //   if (avatar.length > 2048) {
+    //     throw new Error('アイコンの大きさは2MBを超えないでください')
+    //   }
+    // }
     if (organization.length > 30) {
       throw new Error('組織・会社は30文字を超えないでください')
     }
@@ -80,6 +81,9 @@ exports.settings = function(req, res, next) {
           organization: organization,
           location: location,
           profile: profile,
+          // パスワードが空の場合は更新されません？
+          // Not updated when the password is empty？
+          // 密码为空时不跟新？
           password: password
         })
         .then(function() {

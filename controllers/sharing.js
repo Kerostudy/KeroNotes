@@ -1,35 +1,47 @@
-const PostModel = require('../models/articles')
+const PostModel = require('../models/posts')
 
-// GET
-exports.showcreate =  function (req, res, next) {
+// GET /sharing
+exports.showcreate = function(req, res, next) {
   try {
-    if (req.session.user == null){
-    throw new Error('请登录 否则无法分享')
+    if (req.session.user == null) {
+      throw new Error('ログインしてください')
     }
   } catch (e) {
     req.flash('error', e.message)
     return res.redirect('back')
   }
   var username = req.session.user.username
-  res.render('sharing',{
+  res.render('sharing', {
     username: username
   })
 }
 
-exports.create = function (req, res, next) {
+// POST /sharing
+exports.create = function(req, res, next) {
   const author = req.session.user._id
   const username = req.session.user.username
   const title = req.fields.title
   const label = req.fields.label
   const content = req.fields.content
 
-  // 校验参数
   try {
-    if (!title.length) {
-      throw new Error('请填写标题')
+    if (!title) {
+      throw new Error('タイトルは必須です。')
+    }
+    if (title.length > 256) {
+      throw new Error('タイトルは 256 文字以内で入力してください。')
+    }
+    if (!label) {
+      throw new Error('タグを空にすることはできません。')
+    }
+    if (label.length > 30) {
+      throw new Error('タグが長過ぎます（30文字まで）。')
     }
     if (!content.length) {
-      throw new Error('请填写内容')
+      throw new Error('本文は必須です。')
+    }
+    if (!content.length > 262144) {
+      throw new Error('本文は 262144 文字以内で入力してください。')
     }
   } catch (e) {
     req.flash('error', e.message)
@@ -38,46 +50,43 @@ exports.create = function (req, res, next) {
 
   let post = {
     author: author,
-    //username: username,
     title: title,
     label: label,
     content: content
   }
-
   PostModel.create(post)
-    .then(function (result) {
-      // 此 post 是插入 mongodb 后的值，包含 _id
-      console.log(result)
-      post = result
-      req.flash('success', '发表成功')
+    .then(function(result) {
+      // この result は、_idを含む　mongodb　に挿入後の値です。
+      //This result is the value after inserting mongodb, containing _id
+      // 此 result 是插入 mongodb 后的值，包含 _id。
+      req.flash('success', '投稿に成功しました')
       // 发表成功后跳转到该文章页
-      console.log(username)
-      res.redirect(`/${username}`)
+      res.redirect(`/${username}/notes/${result.ops[0]._id}`)
     })
     .catch(next)
 }
 
-exports.showedit = function (req, res, next) {
+//GET /sharing/:article_id/edit
+exports.showedit = function(req, res, next) {
   const article_id = req.params.article_id
   const author = req.session.user._id
-
   PostModel.getRawPostById(article_id)
-    .then(function (result) {
-      // 此 post 是插入 mongodb 后的值，包含 _id
+    .then(function(result) {
       if (!result) {
-        throw new Error('该文章不存在')
+        throw new Error('この記事は存在しません。')
       }
       if (result.author._id.toString() !== author.toString()) {
-        throw new Error('没有权限')
+        throw new Error('権限なし。')
       }
-      res.render('edit',{
-      post: result
-  })
+      res.render('edit', {
+        post: result
+      })
     })
     .catch(next)
 }
 
-exports.edit = function (req, res, next) {
+//POST /sharing/:article_id/edit
+exports.edit = function(req, res, next) {
   const article_id = req.params.article_id
   const author = req.session.user._id
   const username = req.session.user.username
@@ -85,57 +94,74 @@ exports.edit = function (req, res, next) {
   const label = req.fields.label
   const content = req.fields.content
 
-  // 校验参数
   try {
-    if (!title.length) {
-      throw new Error('请填写标题')
+    if (!title) {
+      throw new Error('タイトルは必須です。')
+    }
+    if (title.length > 256) {
+      throw new Error('タイトルは 256 文字以内で入力してください。')
+    }
+    if (!label) {
+      throw new Error('タグを空にすることはできません。')
+    }
+    if (label.length > 30) {
+      throw new Error('タグが長過ぎます（30文字まで）。')
     }
     if (!content.length) {
-      throw new Error('请填写内容')
+      throw new Error('本文は必須です。')
+    }
+    if (!content.length > 262144) {
+      throw new Error('本文は 262144 文字以内で入力してください。')
     }
   } catch (e) {
     req.flash('error', e.message)
     return res.redirect('back')
   }
 
-PostModel.getRawPostById(article_id)
-    .then(function (post) {
-      if (!post) {
-        throw new Error('文章不存在')
+  PostModel.getRawPostById(article_id)
+    .then(function(result) {
+      if (!result) {
+        throw new Error('この記事は存在しません')
       }
-      if (post.author._id.toString() !== author.toString()) {
-        throw new Error('没有权限')
+      if (result.author._id.toString() !== author.toString()) {
+        throw new Error('権限なし')
       }
-
-PostModel.updatePostById(article_id, { title: title, label:label,content: content })
-        .then(function () {
-          req.flash('success', '编辑文章成功')
-          // 编辑成功后跳转到文章页
-          res.redirect(`/${post.username}`)
+      PostModel.updatePostById(article_id, {
+          title: title,
+          label: label,
+          content: content
         })
-    .catch(next)
+        .then(function() {
+          req.flash('success', '記事編集に成功しました。')
+          // 編集に成功したら記事ページに遷移する
+          // Jump to the article page after successful editing
+          // 编辑成功后跳转到文章页
+          res.redirect(`/${result.author.username}/notes/${result._id}`)
+        })
+        .catch(next)
     })
 }
 
-exports.remove = function (req, res, next) {
+//POST /sharing/:article_id/delete
+exports.remove = function(req, res, next) {
   const article_id = req.params.article_id
   const author = req.session.user._id
 
-
   PostModel.getRawPostById(article_id)
-    .then(function (post) {
-      if (!post) {
-        throw new Error('文章不存在')
+    .then(function(result) {
+      if (!result) {
+        throw new Error('この記事は存在しません。')
       }
-      console.log(post)
-      if (post.author._id.toString() !== author.toString()) {
-        throw new Error('没有权限')
+      if (result.author._id.toString() !== author.toString()) {
+        throw new Error('権限なし')
       }
       PostModel.delPostById(article_id)
-        .then(function () {
-          req.flash('success', '删除文章成功')
+        .then(function() {
+          req.flash('success', '記事を削除しました。')
+          // 削除に成功したらマイホームページに遷移する
+          // Jump to my homepage after successful deletion
           // 删除成功后跳转到我的主页
-          res.redirect(`/${post.author.username}`)
+          res.redirect(`/${result.author.username}`)
         })
         .catch(next)
     })
