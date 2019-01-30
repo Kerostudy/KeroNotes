@@ -2,7 +2,6 @@
  * 需要登录
  */
 exports.userRequired = function (req, res, next) {
-	console.log(req.session)
   if (!req.session || !req.session.user || !req.session.user._id) {
     return res.status(403).send('forbidden!');
   }

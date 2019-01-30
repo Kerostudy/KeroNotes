@@ -27,7 +27,7 @@ module.exports = function (app) {
   app.post('/sharing/:article_id/edit', auth.userRequired, sharing.edit);
   app.get('/sharing/:article_id/delete', auth.userRequired, sharing.remove);
 
-  app.get('/:username', articles.username);
+  app.get('/:username', articles.mypage);
   app.get('/:username/notes/:article_id', articles.article_id);
   app.post('/comments', auth.userRequired, comments.create);
   app.get('/comments/:commentId/remove', auth.userRequired, comments.remove);

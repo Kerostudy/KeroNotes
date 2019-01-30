@@ -15,8 +15,22 @@ module.exports = {
     return User.create(user).exec()
   },
 
+  // ユーザー名でユーザー情報を取得する
+  // Get user information by username
   // 通过用户名获取用户信息
-  getUserByName: function getUserByName(user) {
+  getUserByName: function getUserByName(username) {
+      return User
+        .findOne({
+          username: username
+        })
+        .addCreatedAt()
+        .exec()
+    },
+
+  // ユーザー名でユーザー情報を取得する
+  // Get user information by username
+  // 通过 用户名 或 邮箱 获取用户信息
+  getUserByNameorEmail: function getUserByNameorEmail(user) {
     if (isEmail(user)) {
       return User
         .findOne({

@@ -22,11 +22,11 @@ exports.settings = function(req, res, next) {
   const user_id = req.session.user._id
   const first_name = req.fields.first_name
   const last_name = req.fields.last_name
-  const avatar =  req.files.avatar.path.split(path.sep).pop()
+  const avatar = req.files.avatar.path.split(path.sep).pop()
   const organization = req.fields.organization
   const location = req.fields.location
   const profile = req.fields.profile
-  const password = req.fields.password
+  var password = req.fields.password
   const repassword = req.fields.repassword
 
   try {
@@ -47,11 +47,13 @@ exports.settings = function(req, res, next) {
     if (location.length > 200) {
       throw new Error('居住地は200文字を超えないでください')
     }
-    if (password.length < 8) {
-      throw new Error('パスワード8文字以上にしてください')
-    }
-    if (password.length > 50) {
-      throw new Error('パスワードは50文字を超えないでください')
+    if (password) {
+      if (password.length < 8) {
+        throw new Error('パスワード8文字以上にしてください')
+      }
+      if (password.length > 50) {
+        throw new Error('パスワードは50文字を超えないでください')
+      }
     }
     if (password !== repassword) {
       throw new Error('入力したパスワードが一致しません')
@@ -69,6 +71,11 @@ exports.settings = function(req, res, next) {
         }
         if (post.password.toString() === password.toString()) {
           throw new Error('新しいパスワードを以前と同じにすることはできません')
+        }
+        if (!password) {
+          password = post.password
+        } else {
+          password = sha256(password)
         }
       } catch (e) {
         req.flash('error', e.message)
