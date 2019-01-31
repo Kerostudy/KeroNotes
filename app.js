@@ -5,7 +5,9 @@ const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
 const config = require('config-lite')(__dirname)
 const pkg = require('./package')
-const i18n = require('i18n')
+const winston = require('winston')
+const expressWinston = require('express-winston')
+const routes = require('./controllers/routes');
 
 const app = express()
 
@@ -57,10 +59,46 @@ app.use(function (req, res, next) {
   next()
 })
 
-// 路由
-var routes = require('./controllers/routes')(app);
+// 通常のリクエストログ  Normal request log  正常请求的日志
+app.use(expressWinston.logger({
+  transports: [
+    new (winston.transports.Console)({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/success.log'
+    })
+  ]
+}))
+// ルーター  routes  路由
+routes(app)
+// Log of the wrong request   間違ったリクエストのログ   错误请求的日志
+app.use(expressWinston.errorLogger({
+  transports: [
+    new winston.transports.Console({
+      json: true,
+      colorize: true
+    }),
+    new winston.transports.File({
+      filename: 'logs/error.log'
+    })
+  ]
+}))
 
-// 监听端口，启动程序
-app.listen(config.port, function () {
-  console.log(`${pkg.name} listening on port ${config.port}`)
+app.use(function (err, req, res, next) {
+  console.error(err)
+  req.flash('error', err.message)
+  res.redirect('/')
 })
+
+// Listening port, launcher  リスニングポート、ランチャー  监听端口，启动程序
+if (module.parent) {
+  // 被 require，则导出 app
+  module.exports = app
+} else {
+  // 监听端口，启动程序
+  app.listen(config.port, function () {
+    console.log(`${pkg.name} listening on port ${config.port}`)
+  })
+}

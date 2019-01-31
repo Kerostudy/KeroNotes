@@ -15,6 +15,7 @@ exports.signup = function(req, res, next) {
   var password = validator.trim(req.fields.password);
   var repassword = validator.trim(req.fields.repassword);
   var agreement = req.fields.agreement;
+  console.log(agreement)
 
   // 情報の正確さを確認する
   // Verify the correctness of the information
